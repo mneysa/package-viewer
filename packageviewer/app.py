@@ -1,5 +1,10 @@
-from gevent import monkey
-monkey.patch_all()
+from multiprocessing import Process, Pipe
+
+from gevent import monkey, spawn
+monkey.patch_all(thread=False, socket=False)
+
+import pyshark
+
 
 from flask import Flask, render_template
 from flask_socketio import SocketIO
@@ -11,9 +16,32 @@ socketio = SocketIO(app)
 def main():
     return render_template("index.html")
 
-@socketio.on('connect', namespace='/packages')
-def ws_connect():
-    socketio.emit('msg', 'connected', namespace='/packages')
+def http_capturer(pipe):
+    capture = pyshark.LiveCapture(interface="Wi-Fi", display_filter="http.request")
+    for package in capture.sniff_continuously():
+        data = {
+            "time": str(package.sniff_time),
+            "source": str(package.ip.src),
+            "method": str(package.http.request_method),
+            "url": str(package.http.request_full_uri),
+        }
+        if hasattr(package.http, "user_agent"):
+            data.update({"user-agent": str(package.http.user_agent)})
+
+        if hasattr(package, 'urlencoded-form'):
+            data.update({"params": str(package['urlencoded-form'])})
+
+        pipe.send(data)
+
+
+def http_receiver():
+    recv_conn, send_conn = Pipe()
+    capturer = Process(target=http_capturer, args=(send_conn,))
+    capturer.start()
+    while True:
+        print recv_conn.recv()
 
 if __name__ == '__main__':
-    socketio.run(app)
+    # spawn(http_receiver)
+    # socketio.run(app)
+    http_receiver()
