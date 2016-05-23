@@ -21,10 +21,10 @@ function addDataLine(msg) {
 }
 
 function jsonToTableRow(msg) {
-  var jsonData = jQuery.parseJSON(msg);
+  var jsonData = msg; //= jQuery.parseJSON(msg);
 
   return "<tr><td>" + jsonData.time + "</td><td>" + jsonData.source + "</td><td>" + jsonData.method + "</td><td>"
-  + jsonData.url + "</td><td>" + jsonData.params + "</td></tr>";
+  + jsonData.params + "</td><td>" + jsonData.url + "</td></tr>";
 }
 
 function filterSensitiveData(sensitiveData) {
@@ -32,3 +32,7 @@ function filterSensitiveData(sensitiveData) {
   // var password = sensitiveData.search(/password|pw/i);
 
 }
+
+$(document).ready(function() {
+  initSocket();
+});
