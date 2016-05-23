@@ -3,8 +3,9 @@
 // initalize websocket
 function initSocket() {
   var url = "http://" + document.domain + ":" + location.port;
-  var socket = io.connect(url + "/dd");
-  socket.on('dump', function(msg){
+  var socket = io.connect(url + "/packets");
+  socket.on('packet', function(msg){
+    console.debug(msg)
 
     // add new dataline
     addDataLine(msg);
