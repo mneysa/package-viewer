@@ -1,0 +1,59 @@
+<html>
+
+<head>
+  <title>Access point monitor</title>
+  <script type="text/javascript" src="static/util.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
+  <link rel="stylesheet" href="static/bootstrap.css">
+  <link rel="stylesheet" href="static/bootstrap-theme.css">
+  <script type="text/javascript" src="static/bootstrap.js"></script>
+</head>
+
+<body role="document">
+  <div class="container theme-showcase" role="main">
+    <div class="page-header">
+      <h1>Access point monitor</h1>
+      <h3>WLAN: Swisscom_AutoLogin_Free</h3>
+    </div>
+
+    <button type="button" class="btn btn-success" id="testbtn">Test-Button</button>
+
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table" id="requests">
+          <thead>
+           <tr>
+             <th>Time</th>
+             <th>Source ip address</th>
+             <th>Source hostname</th>
+             <th>Destination ip address</th>
+             <th>Destination hostname</th>
+             <th>Info</th>
+           </tr>
+          </thead>
+      <tbody>
+      </tbody>
+    </table>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+          initSocket();
+
+           //  Testing
+           $("#testbtn").click(function(){
+             addDataLine("22.05.2016 16:33:12;192.168.1.33;Android-Smartphone;10.0.0.21;www.google.ch;Username='test', Password='test'");
+
+            //  auto scroll to the end of the page
+             $(document).scrollTop($(document).height());
+           });
+        });
+    </script>
+
+  </div>
+
+  <div class="page-footer">
+    <p align="center">HSLU INFSEC FS2016</p>
+  </div>
+</body>
+</html>
