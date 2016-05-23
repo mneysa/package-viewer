@@ -5,6 +5,7 @@ a simple web application to monitor unencrypted http traffic with wireshark
 
 ```bash
 # Use python2
-python -m pip install "Flask>=0.10.1,<0.11" "Flask-SocketIO>=2.3,<3" "gevent" "gevent-websocket"
+python -m pip install --upgrade pip # update pip to at least version 8 on windows to install binary wheels
+python -m pip install "Flask>=0.10.1,<0.11" "Flask-SocketIO>=2.3,<3" "gevent" "gevent-websocket" "pyshark"
 python -m packageviewer.app "[ethernet interface device name e.g. eth0, Wi-Fi]"
 ```
