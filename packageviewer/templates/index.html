@@ -17,7 +17,7 @@
       <h3>WLAN: Swisscom_AutoLogin_Free</h3>
     </div>
 
-    <button type="button" class="btn btn-success" id="testbtn">Test-Button</button>
+    <!-- <button type="button" class="btn btn-success" id="testbtn">Test-Button</button> -->
 
     <div class="row">
       <div class="col-md-12">
@@ -26,9 +26,8 @@
            <tr>
              <th>Time</th>
              <th>Source ip address</th>
-             <th>Source hostname</th>
-             <th>Destination ip address</th>
-             <th>Destination hostname</th>
+             <th>HTTP method</th>
+             <th>URL</th>
              <th>Info</th>
            </tr>
           </thead>
@@ -41,11 +40,11 @@
           initSocket();
 
            //  Testing
-           $("#testbtn").click(function(){
-             addDataLine("22.05.2016 16:33:12;192.168.1.33;Android-Smartphone;10.0.0.21;www.google.ch;Username='test', Password='test'");
+          //  $("#testbtn").click(function(){
+            //  addDataLine("22.05.2016 16:33:12;192.168.1.33;Android-Smartphone;10.0.0.21;www.google.ch;Username='test', Password='test'");
 
             //  auto scroll to the end of the page
-             $(document).scrollTop($(document).height());
+            //  $(document).scrollTop($(document).height());
            });
         });
     </script>

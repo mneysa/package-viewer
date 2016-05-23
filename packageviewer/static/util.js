@@ -16,22 +16,18 @@ function initSocket() {
 
 // add a new line to the table
 function addDataLine(msg) {
-  $("#requests").append(getTableLine(msg));
+  $("#requests").append(jsonToTableRow(msg));
 }
 
-function getTableLine(msg) {
-  var parameters = msg.split(";");
-  var tableLine = "<tr>";
+function jsonToTableRow(msg) {
+  var jsonData = jQuery.parseJSON(msg);
 
-  for (i = 0; i < parameters.length; i++) {
-      tableLine += "<td>" + parameters[i] + "</td>";
-  }
-
-  tableLine += "</tr>";
-
-  return tableLine;
+  return "<tr><td>" + jsonData.time + "</td><td>" + jsonData.source + "</td><td>" + jsonData.method + "</td><td>"
+  + jsonData.url + "</td><td>" + jsonData.params + "</td></tr>";
 }
 
-function filterData() {
+function filterSensitiveData(sensitiveData) {
+  // sensitiveData.search(/user|username|name/i);
+  // var password = sensitiveData.search(/password|pw/i);
 
 }
