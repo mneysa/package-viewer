@@ -8,10 +8,12 @@ function initSocket() {
     console.debug(msg)
 
     // add new dataline
-    addDataLine(msg);
+    if (isUrlOfInterest(msg.url)) {
+      addDataLine(msg);
 
     // auto scroll to the end of the page
-    $(document).scrollTop($(document).height());
+      $(document).scrollTop($(document).height());
+    }
   });
 }
 
@@ -20,9 +22,7 @@ function addDataLine(msg) {
   $("#requests").append(jsonToTableRow(msg));
 }
 
-function jsonToTableRow(msg) {
-  var jsonData = msg; //= jQuery.parseJSON(msg);
-
+function jsonToTableRow(jsonData) {
   return "<tr><td>" + jsonData.time + "</td><td>" + jsonData.source + "</td><td>" + jsonData.method + "</td><td>"
   + filterSensitiveData(jsonData.params) + "</td><td>" + jsonData.url + "</td></tr>";
 }
@@ -81,6 +81,17 @@ function getSearchUrlParams(params) {
   }
 
   return searchUrlParams;
+}
+
+function isUrlOfInterest(url) {
+  var urlRegex = /(?:^https?:\/\/(?:t.co\/|e.nexac.com|font|tags|pix|ad.|trc.|[^\/]*(?:cdn|ads|adnxs|advert|adingo|sharethis|scorecardresearch|lijit|wemfbox|semasio|adtechus|openx|mediamath|mathtag|addthis|adroll|mookie|symcd|nuggad|adition|pixel|tapad|track|adform|static|farm|doubleclick|yield))|(?:casalemedia|fileserv|template|modernizr|ocsp|bootstrap|jquery|adver)|\.(?:jpg|css|js|ico|gif|json|png|svg|woff2?)(?:\?|&|$))/;
+
+  if (searchRegex.test(url)) {
+  	return true;
+  }
+  else {
+	  return false;
+  }
 }
 
 $(document).ready(function() {
