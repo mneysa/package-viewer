@@ -7,6 +7,7 @@ from hashlib import sha256
 import socket
 import pickle
 import pyshark
+from sys import argv
 
 from flask import Flask, render_template
 from flask_socketio import SocketIO
@@ -19,7 +20,8 @@ def main():
     return render_template("index.html")
 
 def http_capturer(portnum):
-    capture = pyshark.LiveCapture(interface="Wi-Fi", display_filter="http.request")
+    interface_name = argv[1]
+    capture = pyshark.LiveCapture(interface=interface_name, display_filter="http.request")
 
     connection = socket.socket(family=socket.AF_INET, type=socket.SOCK_STREAM)
     connection.connect(('127.0.0.1', portnum))
