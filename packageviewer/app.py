@@ -27,9 +27,13 @@ def http_capturer(pipe):
         }
         if hasattr(package.http, "user_agent"):
             data.update({"user-agent": str(package.http.user_agent)})
+        else:
+            data.update({"user-agent": None})
 
         if hasattr(package, 'urlencoded-form'):
             data.update({"params": str(package['urlencoded-form'])})
+        else:
+            data.update({"params": None})
 
         pipe.send(data)
 
