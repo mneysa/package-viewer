@@ -1,10 +1,9 @@
-from multiprocessing import Process, Pipe
+from gevent import monkey
+monkey.patch_all()
+from gevent.server import StreamServer
 
-from gevent import monkey, spawn
-monkey.patch_all(thread=False, socket=False)
-
-import pyshark
-
+from multiprocessing import current_process
+from hashlib import sha256
 
 from flask import Flask, render_template
 from flask_socketio import SocketIO
@@ -16,36 +15,19 @@ socketio = SocketIO(app)
 def main():
     return render_template("index.html")
 
-def http_capturer(pipe):
-    capture = pyshark.LiveCapture(interface="Wi-Fi", display_filter="http.request")
-    for package in capture.sniff_continuously():
-        data = {
-            "time": str(package.sniff_time),
-            "source": str(package.ip.src),
-            "method": str(package.http.request_method),
-            "url": str(package.http.request_full_uri),
-        }
-        if hasattr(package.http, "user_agent"):
-            data.update({"user-agent": str(package.http.user_agent)})
-        else:
-            data.update({"user-agent": None})
+def http_receiver(connection, address):
+    if address != '127.0.0.1':
+        connection.close()
+        print "wrong ip: " + address
+        return
 
-        if hasattr(package, 'urlencoded-form'):
-            data.update({"params": str(package['urlencoded-form'])})
-        else:
-            data.update({"params": None})
-
-        pipe.send(data)
-
-
-def http_receiver():
-    recv_conn, send_conn = Pipe()
-    capturer = Process(target=http_capturer, args=(send_conn,))
-    capturer.start()
-    while True:
-        print recv_conn.recv()
+    key = connection.recv(256)
+    lkey = sha256(current_process().authkey).digest()
+    if key != lkey:
+        connection.close()
+        print "wrong key!"
+        return
 
 if __name__ == '__main__':
-    # spawn(http_receiver)
-    # socketio.run(app)
-    http_receiver()
+    StreamServer('127.0.0.1:5005', handle=http_receiver).start()
+    socketio.run(app)
