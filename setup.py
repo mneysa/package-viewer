@@ -33,11 +33,15 @@ setup(
         'packageviewer',
     ],
     package_data = {
-        'packageviewer' : ['templates/*.html'],
+        'packageviewer' : [
+            'templates/*.html',
+            'static/*',
+        ],
     },
     install_requires = [
         'Flask>=0.10.1,<0.11',
         'Flask-SocketIO>=2.3,<3',
         'gevent-websocket',
+        'pyshark',
     ],
 )
