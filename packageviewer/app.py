@@ -65,7 +65,7 @@ def http_receiver(connection, address):
     try:
         while True:
             data = unpickler.load()
-            print data
+            socketio.emit('packet', data, namespace="/packets")
     finally:
         connection.close()
 
