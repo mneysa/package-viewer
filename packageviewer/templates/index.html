@@ -5,9 +5,9 @@
   <script type="text/javascript" src="static/util.js"></script>
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
-  <link rel="stylesheet" href="static/bootstrap.css">
-  <link rel="stylesheet" href="static/bootstrap-theme.css">
-  <script type="text/javascript" src="static/bootstrap.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-theme.css') }}">
+  <script type="text/javascript" src="{{ url_for('static', filename='bootstrap.js') }}"></script>
 </head>
 
 <body role="document">
