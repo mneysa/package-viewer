@@ -86,11 +86,11 @@ function getSearchUrlParams(params) {
 function isUrlOfInterest(url) {
   var urlRegex = /(?:^https?:\/\/(?:t.co\/|e.nexac.com|font|tags|pix|ad.|trc.|[^\/]*(?:cdn|ads|adnxs|advert|adingo|sharethis|scorecardresearch|lijit|wemfbox|semasio|adtechus|openx|mediamath|mathtag|addthis|adroll|mookie|symcd|nuggad|adition|pixel|tapad|track|adform|static|farm|doubleclick|yield))|(?:casalemedia|fileserv|template|modernizr|ocsp|bootstrap|jquery|adver)|\.(?:jpg|css|js|ico|gif|json|png|svg|woff2?)(?:\?|&|$))/;
 
-  if (searchRegex.test(url)) {
-  	return true;
+  if (urlRegex.test(url)) {
+  	return false;
   }
   else {
-	  return false;
+	  return true;
   }
 }
 
