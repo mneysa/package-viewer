@@ -21,7 +21,7 @@ def main():
 
 def http_capturer(portnum):
     interface_name = argv[1]
-    capture = pyshark.LiveCapture(interface=interface_name, display_filter="http.request")
+    capture = pyshark.LiveCapture(interface=interface_name, display_filter="http.request.method")
 
     connection = socket.socket(family=socket.AF_INET, type=socket.SOCK_STREAM)
     connection.connect(('127.0.0.1', portnum))
