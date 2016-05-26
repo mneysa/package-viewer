@@ -33,10 +33,14 @@ def http_capturer(portnum):
     for packet in capture.sniff_continuously():
         data = {
             "time": str(packet.sniff_time),
-            "source": str(packet.ip.src),
             "method": str(packet.http.request_method),
             "url": str(packet.http.request_full_uri),
         }
+        if hasattr(packet, "ip"):
+            data.update({"source": str(packet.ip.src)})
+        else:
+            data.update({"source": str(packet.ipv6.src)})
+
         if hasattr(packet.http, "user_agent"):
             data.update({"user-agent": str(packet.http.user_agent)})
         else:
